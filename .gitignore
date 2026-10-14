@@ -1,0 +1,66 @@
+# User Choice: Internal Specification & Context Engine
+_template_project/
+
+# Heavy Model Checkpoints & Quantized Weights (Exceeds GitHub 100 MB Limit)
+models/*.gguf
+models/*.bin
+models/*.safetensors
+models/*.pt
+models/*.pth
+models/*.ckpt
+models/*.onnx
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+!models/.gitkeep
+
+# Python Bytecode & Runtime Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+*.coverage.*
+build/
+dist/
+*.egg-info/
+
+# Virtual Environments
+.env
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# LLMOps, Telemetry & Temporary Artifacts
+wandb/
+artifacts/
+scratch/
+checkpoints/
+*.log
+
+# IDE & Editor Configurations
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Local Agent Workspace Metadata
+.agents/
+.system_generated/
+*.tmp
