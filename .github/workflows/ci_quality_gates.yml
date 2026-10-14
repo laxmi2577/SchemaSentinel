@@ -9,6 +9,8 @@ name: SchemaSentinel Production CI Quality Gates
 jobs:
   quality_gates:
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: .
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest sqlglot lark pydantic torch transformers peft pyyaml psutil
+          pip install -r requirements.txt pyyaml
 
       - name: Gate 1 - Zero-Comment Compliance Audit
         run: |
@@ -53,15 +55,15 @@ jobs:
 
       - name: Gate 3 - Data Engine & Policy AST Regressions
         run: |
-          pytest tests/test_schema_parser.py tests/test_policy_ast.py tests/test_grammar.py tests/test_constrained_logits.py -v
+          python -m pytest tests/test_schema_parser.py tests/test_policy_ast.py tests/test_grammar.py tests/test_constrained_logits.py -v
 
       - name: Gate 4 - Execution Sandbox & Local Serving Verification
         run: |
-          pytest tests/test_runner.py tests/test_equivalence.py tests/test_red_team.py tests/test_local_runner.py -v
+          python -m pytest tests/test_runner.py tests/test_equivalence.py tests/test_red_team.py tests/test_local_runner.py -v
 
       - name: Gate 5 - LLMOps Telemetry & Drift Monitoring Gates
         run: |
-          pytest tests/test_tracker.py tests/test_drift_monitor.py -v
+          python -m pytest tests/test_tracker.py tests/test_drift_monitor.py -v
 
       - name: Gate 6 - Hardware Envelope & Model Binary Quarantine
         run: |
