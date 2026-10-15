@@ -8,6 +8,12 @@ _workspace = str(Path(__file__).resolve().parent.parent)
 if _workspace not in sys.path:
     sys.path.insert(0, _workspace)
 
+if sys.platform == "win32":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 from src.data_engine.schema_parser import ASTSchemaParser
 from src.evaluation.policy_ast import SQLPolicyASTValidator
 from src.serving.grammar import validate_sql_syntax, extract_query_tables, extract_query_columns

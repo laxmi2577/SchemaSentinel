@@ -43,6 +43,9 @@ wandb/
 artifacts/
 scratch/
 checkpoints/
+data/
+*.parquet
+*.duckdb
 *.log
 
 # IDE & Editor Configurations

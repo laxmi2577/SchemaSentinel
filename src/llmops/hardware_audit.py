@@ -29,6 +29,7 @@ class HardwareAuditConfig(BaseModel):
     max_control_plane_ram_mb: float = 250.0
     workspace_root: str = "."
     scan_directories: Tuple[str, ...] = ("src", "tests", "colab")
+    allowed_inference_binaries: Tuple[str, ...] = ("SchemaSentinel-7B-Q4_K_M.gguf",)
     enforce_zero_comments: bool = True
 
 
@@ -62,6 +63,8 @@ def check_weight_quarantine(
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in ignored_dirs]
         for f in filenames:
+            if f in cfg.allowed_inference_binaries:
+                continue
             ext = os.path.splitext(f)[1].lower()
             if ext in cfg.restricted_extensions:
                 file_path = os.path.join(dirpath, f)

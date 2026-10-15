@@ -124,6 +124,7 @@ class SchemaSentinelSFTTrainer:
     ) -> LossBreakdown:
         input_ids = inputs["input_ids"]
         labels = inputs.get("labels", input_ids)
+        attention_mask = inputs.get("attention_mask")
         token_weights = inputs.get("token_weights")
 
         try:
