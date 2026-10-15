@@ -64,42 +64,70 @@ To maintain rigorous production standards, the project adheres to strict archite
 
 ```mermaid
 flowchart TD
-    subgraph DataEngine["Weeks 1–4: Data Engine & Cloud Alignment"]
-        A[Raw Benchmarks Spider / BIRD] --> B[AST Schema Parser SQLGlot]
-        B --> C[128-Permutation MinHash LSH Deduplication]
-        C --> D[DoRA Fine-Tuning + Unlikelihood Loss]
-        D --> E[DPO vs. ORPO Preference Sweep]
-        E --> F[(SchemaSentinel-7B-Q4_K_M.gguf 4.36 GB)]
+    %% ─── VIBRANT HIGH-CONTRAST PALETTE ───
+    classDef l1 fill:#1e1b4b,stroke:#818cf8,stroke-width:2.5px,color:#ffffff;
+    classDef l2 fill:#3b0764,stroke:#c084fc,stroke-width:2.5px,color:#ffffff;
+    classDef l3 fill:#064e3b,stroke:#34d399,stroke-width:2.5px,color:#ffffff;
+    classDef l4 fill:#78350f,stroke:#fbbf24,stroke-width:2.5px,color:#ffffff;
+    classDef alert fill:#881337,stroke:#fb7185,stroke-width:2.5px,color:#ffffff;
+    classDef loop fill:#0e7490,stroke:#38bdf8,stroke-width:2.5px,color:#ffffff;
+
+    subgraph ROW1["⚡ ROW 1: AI MODEL SYNTHESIS & BENCHMARK DEDUPLICATION (Weeks 1–4)"]
+        direction LR
+        R1A["📚 Raw Benchmarks<br/>Spider & BIRD Corpora"]:::l1
+        R1B["🧹 MinHash LSH Engine<br/>128-Permutation Dedup"]:::l1
+        R1C["🧠 DoRA Training & DPO<br/>Qwen2.5-Coder-7B Tuning"]:::l1
+        R1D["📦 Quantized GGUF Binary<br/>Q4_K_M 4.36 GB on CPU"]:::l1
+
+        R1A ==>|"AST Parsing"| R1B
+        R1B ==>|"Quarantine Cleaned"| R1C
+        R1C ==>|"Double Quantization"| R1D
     end
 
-    subgraph ServingEngine["Weeks 5–6: Dual-Shield Serving & LLMOps"]
-        F --> G[Low-Memory CPU Runner llama.cpp]
-        H[Natural Language User Prompt] --> G
-        G --> I[Shield 1: Lark CFG Grammar Logits Mask]
-        I --> J[Shield 2: SQLGlot AST Policy Validator]
-        J -->|Approved Safe SQL| K[Verified ANSI Read-Only Query]
-        J -->|Mutation / Tenant Leak| L[Security Interception Refusal]
-        K --> M[Evidently AI Drift Audit KS-Test / PSI]
+    subgraph ROW2["🛡️ ROW 2: DUAL-SHIELD SERVING & REAL-TIME INTERCEPTION (Weeks 5–6)"]
+        direction LR
+        R2A["👤 Business Analyst<br/>Natural Language Prompt"]:::l2
+        R2B["🚦 Lark CFG Pushdown<br/>Grammar Logit Masking"]:::l2
+        R2C["🔍 SQLGlot AST Engine<br/>Tenancy & Mutation Check"]:::l2
+        R2D["🚨 Security Refusal<br/>Prompt Injection Blocked"]:::alert
+
+        R2A ==>|"Dispatches Prompt"| R2B
+        R2B ==>|"Streams Candidate SQL"| R2C
+        R2C -.->|"Mutation Detected"| R2D
     end
 
-    subgraph LakehouseEngine["Weeks 7–9: Real-Time Stream & Medallion Lakehouse"]
-        K --> N[Async Bounded Stream Producer & Watermark Buffer]
-        N -->|Illegal Mutation Attack| O[Dead-Letter Queue DLQ Parquet Quarantine]
-        N -->|Valid Query Event| P[Bronze Layer Hive-Partitioned Parquet Snappy]
-        P --> Q[Silver Layer Polars Cleaning & MinHash Dedup]
-        Q --> R[Gold Layer KPI Aggregations & Latency Rollups]
-        R --> S[Streaming Feature Store Rolling Z-Scores]
-        S --> T[Local ONNX Anomaly Scorer sub-10ms CPU]
+    subgraph ROW3["🌊 ROW 3: MEDALLION STREAMING LAKEHOUSE & FEATURE STORE (Weeks 7–9)"]
+        direction LR
+        R3A["⚡ Bounded Producer<br/>Async Buffer & Watermark"]:::l3
+        R3B["🛑 Dead-Letter Queue<br/>Quarantine Parquet Sink"]:::alert
+        R3C["🏛️ 3-Tier Lakehouse<br/>Bronze ➔ Silver ➔ Gold"]:::l3
+        R3D["📊 Feature Store & ONNX<br/>Sub-2ms Anomaly Scoring"]:::l3
+
+        R3A -.->|"Syntax Error / Mutation"| R3B
+        R3A ==>|"Micro-Batched Stream"| R3C
+        R3C ==>|"Rolling Latency & Depth"| R3D
     end
 
-    subgraph AnalyticsAgentic["Weeks 10–12: DuckDB OLAP, Executive BI & Autonomous Ops"]
-        R --> U[(DuckDB OLAP Star-Schema Warehouse fact_query_events)]
-        U --> V[Automated Hypothesis Testing Welch t / Cohen d]
-        U --> W[Streamlit Executive BI & NL-SQL Web Portal]
-        T -->|Anomaly Score > 0.85| X[Forensic Investigation Agent 5-Step Triage]
-        U -->|Schema Drift Error| Y[Self-Healing SQL Loop AST Drift Repair]
-        Y -->|Mined Chosen / Rejected Pairs| Z[Active Learning DPO Flywheel Dataset]
+    subgraph ROW4["🤖 ROW 4: DUCKDB OLAP WAREHOUSE & AUTONOMOUS AGENTIC OPS (Weeks 10–12)"]
+        direction LR
+        R4A["📈 DuckDB Star-Schema<br/>fact_query_events Analytics"]:::l4
+        R4B["🖥️ Streamlit Executive BI<br/>Interactive NL-SQL Cockpit"]:::l4
+        R4C["🕵️ Forensic Agent<br/>5-Step Root-Cause Triage"]:::loop
+        R4D["🛠️ Self-Healing AST Loop<br/>Dynamic Query Repair"]:::loop
+        R4E["🚀 DPO Active Learning<br/>Continuous Model Flywheel"]:::loop
+
+        R4A ==>|"Zero-Copy Views"| R4B
+        R4A ==>|"Anomaly Trigger > 0.85"| R4C
+        R4C ==>|"Schema Drift Diagnosed"| R4D
+        R4D ==>|"Mine Chosen / Rejected"| R4E
     end
+
+    %% ─── DYNAMIC MULTI-ROW INTERCONNECTS & FEEDBACK LOOP ───
+    R1D ==>|"1. Deploys Quantized GGUF"| R2B
+    R2C ==>|"2. Dispatches Verified Safe SQL"| R3A
+    R3C ==>|"3. Mounts Gold Parquet Partitions"| R4A
+    R3D -.->|"4. Triggers High Anomaly Alert"| R4C
+    R4E ==>|"5. Closed-Loop Feedback: Hardens Model Weights & Schema Catalog"| R1C
 ```
 
 ---
