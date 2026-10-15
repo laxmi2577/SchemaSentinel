@@ -16,55 +16,6 @@
 
 ---
 
-## Project Workflow & Closed-Loop Telemetry
-> **Real-World Architectural Metaphor**: Just like a high-speed multi-lane bidirectional highway, data in **SchemaSentinel** travels outbound on the fast express lane from user questions down to live analytical execution, while autonomous forensic agents, self-healing AST repair units, and DPO active learning flywheels cruise inbound on the return loop to continuously harden the system.
-
-```mermaid
-flowchart LR
-    classDef forwardLane fill:#0f172a,stroke:#38bdf8,stroke-width:2.5px,color:#f8fafc,font-weight:bold;
-    classDef securityGate fill:#450a0a,stroke:#f87171,stroke-width:2.5px,color:#ffffff,font-weight:bold;
-    classDef engineCore fill:#2e1065,stroke:#c084fc,stroke-width:2.5px,color:#ffffff,font-weight:bold;
-    classDef lakehouseRoad fill:#064e3b,stroke:#34d399,stroke-width:2.5px,color:#ffffff,font-weight:bold;
-    classDef executiveHub fill:#78350f,stroke:#fbbf24,stroke-width:2.5px,color:#ffffff,font-weight:bold;
-    classDef returnLane fill:#431407,stroke:#fb923c,stroke-width:2.5px,color:#ffffff,font-weight:bold;
-    classDef triageGarage fill:#134e4a,stroke:#2dd4bf,stroke-width:2.5px,color:#ffffff,font-weight:bold;
-    classDef pitStop fill:#312e81,stroke:#818cf8,stroke-width:2.5px,color:#ffffff,font-weight:bold;
-
-    subgraph OUTBOUND["🛣️ NORTHBOUND HIGHWAY: Analytical Ingestion & Query Execution (Outbound Lane)"]
-        direction LR
-        U["👤 Business Analyst<br/>🚗 <i>Dispatches NL Query</i>"]:::forwardLane
-        SG["🛡️ Security Tollgate<br/>🚦 <i>Lark CFG & AST Policy Check</i>"]:::securityGate
-        LM["⚡ Local CPU Engine<br/>🏎️ <i>SchemaSentinel-7B GGUF</i>"]:::engineCore
-        LK["🌊 Streaming Lakehouse<br/>🚚 <i>Bronze ➔ Silver ➔ Gold</i>"]:::lakehouseRoad
-        DH["📊 Executive Dashboard<br/>🏁 <i>DuckDB OLAP & Streamlit</i>"]:::executiveHub
-
-        U ==>|"🚗 Query Enters Highway"| SG
-        SG ==>|"✅ Zero-Mutation Cleared"| LM
-        LM ==>|"💨 Synthesized SQL Stream"| LK
-        LK ==>|"📦 Micro-Batched Parquet"| DH
-    end
-
-    subgraph INBOUND["🔄 SOUTHBOUND HIGHWAY: Autonomous Self-Healing & Model Retraining (Return Loop)"]
-        direction RL
-        DH -.->|"🚨 Anomaly Spike (> 0.85) / Drift Alert"| FA["🕵️ Forensic Agent<br/>🚔 <i>5-Step Triage & Root Cause</i>"]:::returnLane
-        FA ==>|"🔧 Schema Drift Identified"| SH["🛠️ Self-Healing Loop<br/>🧰 <i>AST Query Re-Writing & Column Fix</i>"]:::triageGarage
-        SH ==>|"⛔ Unresolvable Mutations"| DLQ["🛑 Dead-Letter Quarantine<br/>📦 <i>Parquet Isolation Siding</i>"]:::securityGate
-        DLQ ==>|"💎 Mined Chosen / Rejected Pairs"| AL["🚀 DPO Active Learning<br/>⛽ <i>Continuous Retraining Flywheel</i>"]:::pitStop
-        AL ==>|"🔄 Refreshed Model Weights & Synced DDL"| LM
-    end
-```
-
-| Highway Track | Real-Time Highway Function | Under-The-Hood Architecture Components |
-| :--- | :--- | :--- |
-| 🚗 **Outbound Fast Lane** | Fast, zero-mutation analytical query dispatch | `Lark CFG Grammar Pushdown Automaton` + `SQLGlot AST Validator` + `Qwen2.5-Coder-7B GGUF` on Consumer CPU (< 6 GB RAM). |
-| 🚚 **Lakehouse Express** | High-throughput streaming lakehouse persistence | `AsyncBoundedProducer` + `StreamingLakehouseSink` (`Bronze` raw, `Silver` deduplicated, `Gold` dimensional aggregates). |
-| 🏁 **Terminal Cockpit** | Sub-second OLAP intelligence & interactive BI | `DuckDB OLAP Star-Schema Warehouse` (`fact_query_events`) + `Streamlit Executive BI Portal`. |
-| 🚔 **Highway Patrol** | Autonomous anomaly triage & root cause detection | `ForensicInvestigationAgent` (5-step protocol: `SCOPE` $\rightarrow$ `PROFILE` $\rightarrow$ `DRILL_DOWN` $\rightarrow$ `CROSS_REFERENCE` $\rightarrow$ `REPORT`). |
-| 🧰 **Mobile Repair Unit** | On-the-fly SQL self-correction without human intervention | `SelfHealingSQLDriftLoop` (AST structural parsing, missing column remapping, syntax mutation healing up to 3 retries). |
-| ⛽ **Fuel Pit-Stop** | Closed-loop model improvement & preference mining | `DeadLetterQueueSink` + `ActiveLearningPairMiner` exporting format-compliant JSONL for direct DPO/ORPO retraining. |
-
----
-
 ## 📌 Executive Summary & The Enterprise Problem
 
 ### The Failure of Off-the-Shelf LLMs in Enterprise Data Warehouses
